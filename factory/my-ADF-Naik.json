@@ -1,0 +1,9 @@
+{
+	"name": "my-ADF-Naik",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "2161b3a3-110c-4c45-8292-0f31a5507181",
+		"tenantId": "9cdd2b60-c056-4f47-9aea-2df5db713f8b"
+	}
+}

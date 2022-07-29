@@ -1,0 +1,157 @@
+{
+	"name": "df_error_handling",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_Asia_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_AzureSqlTable_Bad",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_AzureSqlTable_Good",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "split1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Region as string,",
+				"          Country as string,",
+				"          {Item Type} as string,",
+				"          {Sales Channel} as string,",
+				"          {Order Priority} as string,",
+				"          {Order Date} as string,",
+				"          {Order ID} as string,",
+				"          {Ship Date} as string,",
+				"          {Units Sold} as string,",
+				"          {Unit Price} as string,",
+				"          {Unit Cost} as string,",
+				"          {Total Revenue} as string,",
+				"          {Total Cost} as string,",
+				"          {Total Profit} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     moveFiles: ['Asia.csv','BKP']) ~> source1",
+				"source1 split(isNull(toDate({Order Date},'mm/dd/yyyy')),",
+				"     disjoint: false) ~> split1@(Badrecord, GoodRecord)",
+				"split1@Badrecord derive(Src_File = concat('Asia_',toString(currentDate('IST')),'.csv')) ~> derivedColumn1",
+				"split1@GoodRecord derive(src_File = concat('Asia_',toString(currentDate('IST')),'.csv'),",
+				"          o_Order_Date = toDate({Order Date},'mm/dd/yyyy'),",
+				"          o_ship_date = currentTimestamp()) ~> derivedColumn2",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Region as string,",
+				"          Country as string,",
+				"          Item_Type as string,",
+				"          Sales_Channel as string,",
+				"          Order_Priority as string,",
+				"          Order_Date as string,",
+				"          Order_ID as string,",
+				"          Ship_Date as string,",
+				"          Units_Sold as string,",
+				"          Unit_Price as string,",
+				"          Unit_Cost as string,",
+				"          Total_Revenue as string,",
+				"          Total_Cost as string,",
+				"          Total_Profit as string,",
+				"          Src_File_Name as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Region,",
+				"          Country,",
+				"          Item_Type = {Item Type},",
+				"          Sales_Channel = {Sales Channel},",
+				"          Order_Priority = {Order Priority},",
+				"          Order_Date = {Order Date},",
+				"          Order_ID = {Order ID},",
+				"          Ship_Date = {Ship Date},",
+				"          Units_Sold = {Units Sold},",
+				"          Unit_Price = {Unit Price},",
+				"          Unit_Cost = {Unit Cost},",
+				"          Total_Revenue = {Total Revenue},",
+				"          Total_Cost = {Total Cost},",
+				"          Total_Profit = {Total Profit},",
+				"          Src_File_Name = Src_File",
+				"     )) ~> sink1",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Region as string,",
+				"          Country as string,",
+				"          Item_Type as string,",
+				"          Sales_Channel as string,",
+				"          Order_Priority as string,",
+				"          Order_Date as date,",
+				"          Order_ID as date,",
+				"          Ship_Date as date,",
+				"          Units_Sold as string,",
+				"          Unit_Price as string,",
+				"          Unit_Cost as string,",
+				"          Total_Revenue as string,",
+				"          Total_Cost as string,",
+				"          Total_Profit as string,",
+				"          Src_File_Name as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Region,",
+				"          Country,",
+				"          Item_Type = {Item Type},",
+				"          Sales_Channel = {Sales Channel},",
+				"          Order_Priority = {Order Priority},",
+				"          Order_Date = o_Order_Date,",
+				"          Ship_Date = o_ship_date,",
+				"          Units_Sold = {Units Sold},",
+				"          Unit_Price = {Unit Price},",
+				"          Unit_Cost = {Unit Cost},",
+				"          Total_Revenue = {Total Revenue},",
+				"          Total_Cost = {Total Cost},",
+				"          Total_Profit = {Total Profit},",
+				"          Src_File_Name = src_File",
+				"     )) ~> sink2"
+			]
+		}
+	}
+}

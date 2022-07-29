@@ -1,0 +1,74 @@
+{
+	"name": "ds_incr_tab",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureSQL_Db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Region",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Item Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sales Channel",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order Priority",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order Date",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Ship Date",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Units Sold",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Unit Price",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Unit Cost",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Total Revenue",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Total Cost",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Total Profit",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Regions_Incr_Files"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

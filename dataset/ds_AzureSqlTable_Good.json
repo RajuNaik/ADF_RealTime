@@ -1,0 +1,78 @@
+{
+	"name": "ds_AzureSqlTable_Good",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureSQL_Db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Region",
+				"type": "varchar"
+			},
+			{
+				"name": "Country",
+				"type": "varchar"
+			},
+			{
+				"name": "Item_Type",
+				"type": "varchar"
+			},
+			{
+				"name": "Sales_Channel",
+				"type": "varchar"
+			},
+			{
+				"name": "Order_Priority",
+				"type": "varchar"
+			},
+			{
+				"name": "Order_Date",
+				"type": "date"
+			},
+			{
+				"name": "Order_ID",
+				"type": "date"
+			},
+			{
+				"name": "Ship_Date",
+				"type": "date"
+			},
+			{
+				"name": "Units_Sold",
+				"type": "varchar"
+			},
+			{
+				"name": "Unit_Price",
+				"type": "varchar"
+			},
+			{
+				"name": "Unit_Cost",
+				"type": "varchar"
+			},
+			{
+				"name": "Total_Revenue",
+				"type": "varchar"
+			},
+			{
+				"name": "Total_Cost",
+				"type": "varchar"
+			},
+			{
+				"name": "Total_Profit",
+				"type": "varchar"
+			},
+			{
+				"name": "Src_File_Name",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Regions"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
