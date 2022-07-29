@@ -13,6 +13,92 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_sqldb_fixed')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_AzureSQL_Db",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "empid",
+						"type": "nvarchar"
+					},
+					{
+						"name": "empname",
+						"type": "nvarchar"
+					},
+					{
+						"name": "emploc",
+						"type": "nvarchar"
+					},
+					{
+						"name": "empphon",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "emp"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_sqldb_window')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_AzureSQL_Db",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Item Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Priority",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Units Sold",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Running Total",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Running_Total"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/pl_delete_old_files')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -848,7 +934,88 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_sqldb_fixed')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_running_tot')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_adls_running_tot",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_sqldb_window",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "window1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Country as string,",
+						"          {Item Type} as string,",
+						"          {Sales Channel} as string,",
+						"          {Order Priority} as string,",
+						"          {Order ID} as string,",
+						"          {Units Sold} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 window(asc(toInteger({Units Sold}), true),",
+						"     running_total = sum(toInteger({Units Sold}))) ~> window1",
+						"window1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Country as string,",
+						"          {Item Type} as string,",
+						"          {Sales Channel} as string,",
+						"          {Order Priority} as string,",
+						"          {Order ID} as string,",
+						"          {Units Sold} as integer,",
+						"          {Running Total} as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Country,",
+						"          {Item Type},",
+						"          {Sales Channel},",
+						"          {Order Priority},",
+						"          {Order ID},",
+						"          {Units Sold},",
+						"          {Running Total} = running_total",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_sqldb_window')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pl_dups_remove')]",
