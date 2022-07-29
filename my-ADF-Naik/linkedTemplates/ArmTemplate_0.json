@@ -227,6 +227,72 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_AzureSQL_Db",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "varchar"
+					},
+					{
+						"name": "EMAIL",
+						"type": "varchar"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "varchar"
+					},
+					{
+						"name": "HIRE_DATE",
+						"type": "varchar"
+					},
+					{
+						"name": "JOB_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "SALARY",
+						"type": "varchar"
+					},
+					{
+						"name": "COMMISSION_PCT",
+						"type": "varchar"
+					},
+					{
+						"name": "MANAGER_ID",
+						"type": "varchar"
+					},
+					{
+						"name": "DEPARTMENT_ID",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "employee"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_AzureSQL_Db')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_Asia_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -836,6 +902,80 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_adls_emp_window')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "employees.csv",
+						"folderPath": "Running_Total",
+						"fileSystem": "container1"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "EMPLOYEE_ID",
+						"type": "String"
+					},
+					{
+						"name": "FIRST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "LAST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "EMAIL",
+						"type": "String"
+					},
+					{
+						"name": "PHONE_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "HIRE_DATE",
+						"type": "String"
+					},
+					{
+						"name": "JOB_ID",
+						"type": "String"
+					},
+					{
+						"name": "SALARY",
+						"type": "String"
+					},
+					{
+						"name": "COMMISSION_PCT",
+						"type": "String"
+					},
+					{
+						"name": "MANAGER_ID",
+						"type": "String"
+					},
+					{
+						"name": "DEPARTMENT_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_adls_fixed')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1286,166 +1426,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_adls')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_incr_tab')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_AzureSQL_Db",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Region",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Country",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Item Type",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Sales Channel",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Order Priority",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Order Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Order ID",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Ship Date",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Units Sold",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Unit Price",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Unit Cost",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Total Revenue",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Total Cost",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Total Profit",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "Regions_Incr_Files"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_AzureSQL_Db')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_sqldb_dynamic')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_AzureSQL_Db",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Region",
-						"type": "varchar"
-					},
-					{
-						"name": "Country",
-						"type": "varchar"
-					},
-					{
-						"name": "Item_Type",
-						"type": "varchar"
-					},
-					{
-						"name": "Sales_Channel",
-						"type": "varchar"
-					},
-					{
-						"name": "Order_Priority",
-						"type": "varchar"
-					},
-					{
-						"name": "Order_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Order_ID",
-						"type": "varchar"
-					},
-					{
-						"name": "Ship_Date",
-						"type": "varchar"
-					},
-					{
-						"name": "Units_Sold",
-						"type": "varchar"
-					},
-					{
-						"name": "Unit_Price",
-						"type": "varchar"
-					},
-					{
-						"name": "Unit_Cost",
-						"type": "varchar"
-					},
-					{
-						"name": "Total_Revenue",
-						"type": "varchar"
-					},
-					{
-						"name": "Total_Cost",
-						"type": "varchar"
-					},
-					{
-						"name": "Total_Profit",
-						"type": "varchar"
-					},
-					{
-						"name": "Src_File_Name",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "Regions_Union_Files"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_AzureSQL_Db')]"
 			]
 		}
 	]
