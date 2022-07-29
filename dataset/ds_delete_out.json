@@ -1,0 +1,23 @@
+{
+	"name": "ds_delete_out",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"param_delete_ds_file": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "Sales_Data_output",
+				"fileSystem": "container1"
+			}
+		}
+	}
+}
