@@ -1,0 +1,368 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "my-ADF-Naik"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger_log_stats')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pl_log_stat",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Month",
+						"interval": 16,
+						"startTime": "2022-07-29T16:25:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_error_handling')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_Asia_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_AzureSqlTable_Bad",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_AzureSqlTable_Good",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "split1"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "derivedColumn2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Region as string,",
+						"          Country as string,",
+						"          {Item Type} as string,",
+						"          {Sales Channel} as string,",
+						"          {Order Priority} as string,",
+						"          {Order Date} as string,",
+						"          {Order ID} as string,",
+						"          {Ship Date} as string,",
+						"          {Units Sold} as string,",
+						"          {Unit Price} as string,",
+						"          {Unit Cost} as string,",
+						"          {Total Revenue} as string,",
+						"          {Total Cost} as string,",
+						"          {Total Profit} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     moveFiles: ['Asia.csv','BKP']) ~> source1",
+						"source1 split(isNull(toDate({Order Date},'mm/dd/yyyy')),",
+						"     disjoint: false) ~> split1@(Badrecord, GoodRecord)",
+						"split1@Badrecord derive(Src_File = concat('Asia_',toString(currentDate('IST')),'.csv')) ~> derivedColumn1",
+						"split1@GoodRecord derive(src_File = concat('Asia_',toString(currentDate('IST')),'.csv'),",
+						"          o_Order_Date = toDate({Order Date},'mm/dd/yyyy'),",
+						"          o_ship_date = currentTimestamp()) ~> derivedColumn2",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Region as string,",
+						"          Country as string,",
+						"          Item_Type as string,",
+						"          Sales_Channel as string,",
+						"          Order_Priority as string,",
+						"          Order_Date as string,",
+						"          Order_ID as string,",
+						"          Ship_Date as string,",
+						"          Units_Sold as string,",
+						"          Unit_Price as string,",
+						"          Unit_Cost as string,",
+						"          Total_Revenue as string,",
+						"          Total_Cost as string,",
+						"          Total_Profit as string,",
+						"          Src_File_Name as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Region,",
+						"          Country,",
+						"          Item_Type = {Item Type},",
+						"          Sales_Channel = {Sales Channel},",
+						"          Order_Priority = {Order Priority},",
+						"          Order_Date = {Order Date},",
+						"          Order_ID = {Order ID},",
+						"          Ship_Date = {Ship Date},",
+						"          Units_Sold = {Units Sold},",
+						"          Unit_Price = {Unit Price},",
+						"          Unit_Cost = {Unit Cost},",
+						"          Total_Revenue = {Total Revenue},",
+						"          Total_Cost = {Total Cost},",
+						"          Total_Profit = {Total Profit},",
+						"          Src_File_Name = Src_File",
+						"     )) ~> sink1",
+						"derivedColumn2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Region as string,",
+						"          Country as string,",
+						"          Item_Type as string,",
+						"          Sales_Channel as string,",
+						"          Order_Priority as string,",
+						"          Order_Date as date,",
+						"          Order_ID as date,",
+						"          Ship_Date as date,",
+						"          Units_Sold as string,",
+						"          Unit_Price as string,",
+						"          Unit_Cost as string,",
+						"          Total_Revenue as string,",
+						"          Total_Cost as string,",
+						"          Total_Profit as string,",
+						"          Src_File_Name as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Region,",
+						"          Country,",
+						"          Item_Type = {Item Type},",
+						"          Sales_Channel = {Sales Channel},",
+						"          Order_Priority = {Order Priority},",
+						"          Order_Date = o_Order_Date,",
+						"          Ship_Date = o_ship_date,",
+						"          Units_Sold = {Units Sold},",
+						"          Unit_Price = {Unit Price},",
+						"          Unit_Cost = {Unit Cost},",
+						"          Total_Revenue = {Total Revenue},",
+						"          Total_Cost = {Total Cost},",
+						"          Total_Profit = {Total Profit},",
+						"          Src_File_Name = src_File",
+						"     )) ~> sink2"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/df_fixed_file')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_adls_fixed",
+								"type": "DatasetReference"
+							},
+							"name": "SrcFixedFile"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ds_sqldb_fixed",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Column_1 as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> SrcFixedFile",
+						"SrcFixedFile derive(o_empid = substring(Column_1,1,3),",
+						"          o_empname = substring(Column_1,4,10),",
+						"          o_emploc = substring(Column_1,14,3),",
+						"          o_empphon = substring(Column_1,17)) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          empid as string,",
+						"          empname as string,",
+						"          emploc as string,",
+						"          empphon as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          empid = o_empid,",
+						"          empname = o_empname,",
+						"          emploc = o_emploc,",
+						"          empphon = o_empphon",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_error_handling')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "df_error_handling",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_error_handling",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {},
+									"sink2": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-07-29T08:02:22Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_error_handling')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_load_fixed_file')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "df_fixed_file",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "1.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_fixed_file",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"SrcFixedFile": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_fixed_file')]"
+			]
+		}
+	]
+}
