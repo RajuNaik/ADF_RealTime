@@ -145,6 +145,88 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_AzureSQL_Db",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Region",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Item Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Priority",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Ship Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Units Sold",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Unit Price",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Unit Cost",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Revenue",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Cost",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Profit",
+						"type": "nvarchar"
+					},
+					{
+						"name": "total units sold",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dups"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_AzureSQL_Db')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_Asia_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -417,6 +499,178 @@
 							"type": "Expression"
 						},
 						"folderPath": "Sales Data Input",
+						"fileSystem": "container1"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Region",
+						"type": "String"
+					},
+					{
+						"name": "Country",
+						"type": "String"
+					},
+					{
+						"name": "Item Type",
+						"type": "String"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "String"
+					},
+					{
+						"name": "Order Priority",
+						"type": "String"
+					},
+					{
+						"name": "Order Date",
+						"type": "String"
+					},
+					{
+						"name": "Order ID",
+						"type": "String"
+					},
+					{
+						"name": "Ship Date",
+						"type": "String"
+					},
+					{
+						"name": "Units Sold",
+						"type": "String"
+					},
+					{
+						"name": "Unit Price",
+						"type": "String"
+					},
+					{
+						"name": "Unit Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Revenue",
+						"type": "String"
+					},
+					{
+						"name": "Total Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Profit",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_adls_dups1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Asia1.csv",
+						"folderPath": "Dups_Input",
+						"fileSystem": "container1"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Region",
+						"type": "String"
+					},
+					{
+						"name": "Country",
+						"type": "String"
+					},
+					{
+						"name": "Item Type",
+						"type": "String"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "String"
+					},
+					{
+						"name": "Order Priority",
+						"type": "String"
+					},
+					{
+						"name": "Order Date",
+						"type": "String"
+					},
+					{
+						"name": "Order ID",
+						"type": "String"
+					},
+					{
+						"name": "Ship Date",
+						"type": "String"
+					},
+					{
+						"name": "Units Sold",
+						"type": "String"
+					},
+					{
+						"name": "Unit Price",
+						"type": "String"
+					},
+					{
+						"name": "Unit Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Revenue",
+						"type": "String"
+					},
+					{
+						"name": "Total Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Profit",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_adls_dups2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Asia2.csv",
+						"folderPath": "Dups_Input",
 						"fileSystem": "container1"
 					},
 					"columnDelimiter": ",",
@@ -1176,497 +1430,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_AzureSQL_Db')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_delete_old_files')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Get Metadata1",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ds_adls_output",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "AzureBlobFSReadSettings",
-								"recursive": true,
-								"modifiedDatetimeStart": "2022-07-29T00:00:00.486Z",
-								"modifiedDatetimeEnd": {
-									"value": "@adddays(utcnow(),0)",
-									"type": "Expression"
-								},
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Get Metadata1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Get Metadata1').output.childItems",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Delete1",
-									"type": "Delete",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"dataset": {
-											"referenceName": "ds_delete_out",
-											"type": "DatasetReference",
-											"parameters": {
-												"param_delete_ds_file": {
-													"value": "@item().name",
-													"type": "Expression"
-												}
-											}
-										},
-										"enableLogging": false,
-										"storeSettings": {
-											"type": "AzureBlobFSReadSettings",
-											"recursive": true,
-											"enablePartitionDiscovery": false
-										}
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_adls_output')]",
-				"[concat(variables('factoryId'), '/datasets/ds_delete_out')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_dynalic_file_read_from_source')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "GetFileNames",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "ds_adls_folder",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "AzureBlobFSReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					},
-					{
-						"name": "ReadForEachFile",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "GetFileNames",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('GetFileNames').output.childItems",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "CopyEachFile",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "DelimitedTextSource",
-											"storeSettings": {
-												"type": "AzureBlobFSReadSettings",
-												"recursive": true,
-												"enablePartitionDiscovery": false
-											},
-											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
-											}
-										},
-										"sink": {
-											"type": "DelimitedTextSink",
-											"storeSettings": {
-												"type": "AzureBlobFSWriteSettings"
-											},
-											"formatSettings": {
-												"type": "DelimitedTextWriteSettings",
-												"quoteAllText": true,
-												"fileExtension": ".txt"
-											}
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "ds_adls_dynamic_file",
-											"type": "DatasetReference",
-											"parameters": {
-												"Param_DS_File_Name": {
-													"value": "@item().name",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "ds_adls_output",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
-								}
-							]
-						}
-					},
-					{
-						"name": "ForEachtoLoad",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "GetFileNames",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('GetFileNames').output.childItems",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"source": {
-											"type": "DelimitedTextSource",
-											"storeSettings": {
-												"type": "AzureBlobFSReadSettings",
-												"recursive": true,
-												"enablePartitionDiscovery": false
-											},
-											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
-											}
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "ds_adls_db_input",
-											"type": "DatasetReference",
-											"parameters": {
-												"param_ds_input_file": {
-													"value": "@item().name",
-													"type": "Expression"
-												}
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "ds_sqldb_dynamic",
-											"type": "DatasetReference",
-											"parameters": {}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-07-29T10:41:29Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_adls_folder')]",
-				"[concat(variables('factoryId'), '/datasets/ds_adls_dynamic_file')]",
-				"[concat(variables('factoryId'), '/datasets/ds_adls_output')]",
-				"[concat(variables('factoryId'), '/datasets/ds_adls_db_input')]",
-				"[concat(variables('factoryId'), '/datasets/ds_sqldb_dynamic')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_incrmental_file_copy')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyIncrFiles",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"modifiedDatetimeStart": {
-										"value": "@adddays(utcnow(),-1)",
-										"type": "Expression"
-									},
-									"modifiedDatetimeEnd": {
-										"value": "@utcnow()",
-										"type": "Expression"
-									},
-									"wildcardFolderPath": "Sales Data Input",
-									"wildcardFileName": "*",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_incr_input",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_adls_incr_output",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "CopyIncrFiles",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"modifiedDatetimeStart": {
-										"value": "@adddays(utcnow(),-1)",
-										"type": "Expression"
-									},
-									"modifiedDatetimeEnd": {
-										"value": "@utcnow()",
-										"type": "Expression"
-									},
-									"wildcardFolderPath": "Sales Data Input",
-									"wildcardFileName": "*",
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"preCopyScript": "truncate table Regions_Incr_Files",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false,
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_incr_input",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_incr_tab",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2022-07-29T11:32:30Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_incr_input')]",
-				"[concat(variables('factoryId'), '/datasets/ds_adls_incr_output')]",
-				"[concat(variables('factoryId'), '/datasets/ds_incr_tab')]"
 			]
 		}
 	]

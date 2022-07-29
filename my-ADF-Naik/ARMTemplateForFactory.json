@@ -702,6 +702,88 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_AzureSQL_Db",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Region",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Country",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Item Type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Priority",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Order ID",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Ship Date",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Units Sold",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Unit Price",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Unit Cost",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Revenue",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Cost",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Total Profit",
+						"type": "nvarchar"
+					},
+					{
+						"name": "total units sold",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "dups"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_AzureSQL_Db')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ds_Asia_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -974,6 +1056,178 @@
 							"type": "Expression"
 						},
 						"folderPath": "Sales Data Input",
+						"fileSystem": "container1"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Region",
+						"type": "String"
+					},
+					{
+						"name": "Country",
+						"type": "String"
+					},
+					{
+						"name": "Item Type",
+						"type": "String"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "String"
+					},
+					{
+						"name": "Order Priority",
+						"type": "String"
+					},
+					{
+						"name": "Order Date",
+						"type": "String"
+					},
+					{
+						"name": "Order ID",
+						"type": "String"
+					},
+					{
+						"name": "Ship Date",
+						"type": "String"
+					},
+					{
+						"name": "Units Sold",
+						"type": "String"
+					},
+					{
+						"name": "Unit Price",
+						"type": "String"
+					},
+					{
+						"name": "Unit Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Revenue",
+						"type": "String"
+					},
+					{
+						"name": "Total Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Profit",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_adls_dups1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Asia1.csv",
+						"folderPath": "Dups_Input",
+						"fileSystem": "container1"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Region",
+						"type": "String"
+					},
+					{
+						"name": "Country",
+						"type": "String"
+					},
+					{
+						"name": "Item Type",
+						"type": "String"
+					},
+					{
+						"name": "Sales Channel",
+						"type": "String"
+					},
+					{
+						"name": "Order Priority",
+						"type": "String"
+					},
+					{
+						"name": "Order Date",
+						"type": "String"
+					},
+					{
+						"name": "Order ID",
+						"type": "String"
+					},
+					{
+						"name": "Ship Date",
+						"type": "String"
+					},
+					{
+						"name": "Units Sold",
+						"type": "String"
+					},
+					{
+						"name": "Unit Price",
+						"type": "String"
+					},
+					{
+						"name": "Unit Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Revenue",
+						"type": "String"
+					},
+					{
+						"name": "Total Cost",
+						"type": "String"
+					},
+					{
+						"name": "Total Profit",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_adls_dups2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Asia2.csv",
+						"folderPath": "Dups_Input",
 						"fileSystem": "container1"
 					},
 					"columnDelimiter": ",",
@@ -1766,33 +2020,139 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/trigger_log_stats')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/df_dups_remove')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pl_log_stat",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
+				"type": "MappingDataFlow",
 				"typeProperties": {
-					"recurrence": {
-						"frequency": "Month",
-						"interval": 16,
-						"startTime": "2022-07-29T16:25:00Z",
-						"timeZone": "UTC"
-					}
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "ds_adls_dups1",
+								"type": "DatasetReference"
+							},
+							"name": "asia1"
+						},
+						{
+							"dataset": {
+								"referenceName": "ds_adls_dups2",
+								"type": "DatasetReference"
+							},
+							"name": "asia2"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "AzureSqlTable1",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "union1"
+						},
+						{
+							"name": "aggregate1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          Region as string,",
+						"          Country as string,",
+						"          {Item Type} as string,",
+						"          {Sales Channel} as string,",
+						"          {Order Priority} as string,",
+						"          {Order Date} as string,",
+						"          {Order ID} as string,",
+						"          {Ship Date} as string,",
+						"          {Units Sold} as string,",
+						"          {Unit Price} as string,",
+						"          {Unit Cost} as string,",
+						"          {Total Revenue} as string,",
+						"          {Total Cost} as string,",
+						"          {Total Profit} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> asia1",
+						"source(output(",
+						"          Region as string,",
+						"          Country as string,",
+						"          {Item Type} as string,",
+						"          {Sales Channel} as string,",
+						"          {Order Priority} as string,",
+						"          {Order Date} as string,",
+						"          {Order ID} as string,",
+						"          {Ship Date} as string,",
+						"          {Units Sold} as string,",
+						"          {Unit Price} as string,",
+						"          {Unit Cost} as string,",
+						"          {Total Revenue} as string,",
+						"          {Total Cost} as string,",
+						"          {Total Profit} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> asia2",
+						"asia1, asia2 union(byName: true)~> union1",
+						"union1 aggregate(groupBy(Country),",
+						"     o_sum_units_sold = toString(sum(toInteger({Units Sold}))),",
+						"          each(match(name!='Country'), $$ = first($$))) ~> aggregate1",
+						"aggregate1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          Region as string,",
+						"          Country as string,",
+						"          {Item Type} as string,",
+						"          {Sales Channel} as string,",
+						"          {Order Priority} as string,",
+						"          {Order Date} as string,",
+						"          {Order ID} as string,",
+						"          {Ship Date} as string,",
+						"          {Units Sold} as string,",
+						"          {Unit Price} as string,",
+						"          {Unit Cost} as string,",
+						"          {Total Revenue} as string,",
+						"          {Total Cost} as string,",
+						"          {Total Profit} as string,",
+						"          {total units sold} as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          Region,",
+						"          Country,",
+						"          {Item Type},",
+						"          {Sales Channel},",
+						"          {Order Priority},",
+						"          {Order Date},",
+						"          {Order ID},",
+						"          {Ship Date},",
+						"          {Units Sold},",
+						"          {Unit Price},",
+						"          {Unit Cost},",
+						"          {Total Revenue},",
+						"          {Total Cost},",
+						"          {Total Profit},",
+						"          {total units sold} = o_sum_units_sold",
+						"     )) ~> sink1"
+					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pl_log_stat')]"
+				"[concat(variables('factoryId'), '/datasets/ds_adls_dups1')]",
+				"[concat(variables('factoryId'), '/datasets/ds_adls_dups2')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable1')]"
 			]
 		},
 		{
