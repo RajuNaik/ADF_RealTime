@@ -1,0 +1,24 @@
+{
+	"name": "trigger_log_stats",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_log_stat",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Month",
+				"interval": 16,
+				"startTime": "2022-07-29T16:25:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
