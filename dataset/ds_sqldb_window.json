@@ -1,0 +1,47 @@
+{
+	"name": "ds_sqldb_window",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureSQL_Db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Item Type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Sales Channel",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order Priority",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order ID",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Units Sold",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Running Total",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Running_Total"
+		}
+	}
+}
