@@ -64,7 +64,9 @@
 				"          {Item Type},",
 				"          {Sales Channel},",
 				"          {Order Priority},",
-				"          {Order ID}",
+				"          {Order ID},",
+				"          {Units Sold},",
+				"          {Running Total} = running_total",
 				"     )) ~> sink1"
 			]
 		}
