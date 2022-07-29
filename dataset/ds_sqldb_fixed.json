@@ -1,0 +1,33 @@
+{
+	"name": "ds_sqldb_fixed",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzureSQL_Db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "empid",
+				"type": "nvarchar"
+			},
+			{
+				"name": "empname",
+				"type": "nvarchar"
+			},
+			{
+				"name": "emploc",
+				"type": "nvarchar"
+			},
+			{
+				"name": "empphon",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "emp"
+		}
+	}
+}
