@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "ds_sqldb_window",
+						"referenceName": "ds_scd_emptb",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -47,22 +47,39 @@
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
-				"          Country as string,",
-				"          {Item Type} as string,",
-				"          {Sales Channel} as string,",
-				"          {Order Priority} as string,",
-				"          {Order ID} as string,",
-				"          {Units Sold} as integer,",
-				"          {Running Total} as integer",
+				"          EMPLOYEE_ID as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL as string,",
+				"          PHONE_NUMBER as string,",
+				"          HIRE_DATE as string,",
+				"          JOB_ID as string,",
+				"          SALARY as integer,",
+				"          COMMISSION_PCT as string,",
+				"          MANAGER_ID as string,",
+				"          DEPARTMENT_ID as string",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:false,",
+				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:true,",
+				"     upsertable:false,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          EMPLOYEE_ID,",
+				"          FIRST_NAME,",
+				"          LAST_NAME,",
+				"          EMAIL,",
+				"          PHONE_NUMBER,",
+				"          HIRE_DATE,",
+				"          JOB_ID,",
+				"          SALARY,",
+				"          COMMISSION_PCT,",
+				"          MANAGER_ID,",
+				"          DEPARTMENT_ID",
+				"     )) ~> sink1"
 			]
 		}
 	}
