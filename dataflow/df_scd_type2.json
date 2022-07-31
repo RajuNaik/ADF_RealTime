@@ -25,14 +25,14 @@
 						"referenceName": "ds_sqlDB_scd2",
 						"type": "DatasetReference"
 					},
-					"name": "Insert"
+					"name": "sinkinsert"
 				},
 				{
 					"dataset": {
 						"referenceName": "ds_sqlDB_scd2",
 						"type": "DatasetReference"
 					},
-					"name": "updateSink"
+					"name": "sinkupdate"
 				}
 			],
 			"transformations": [
@@ -119,7 +119,7 @@
 				"          EMAIL,",
 				"          PHONE_NUMBER,",
 				"          isActive = o_isActive",
-				"     )) ~> Insert",
+				"     )) ~> sinkinsert",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -135,18 +135,15 @@
 				"     insertable:false,",
 				"     updateable:true,",
 				"     upsertable:false,",
+				"     keys:['surKey'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
-				"          EMPLOYEE_ID,",
-				"          FIRST_NAME,",
-				"          LAST_NAME,",
-				"          EMAIL,",
-				"          PHONE_NUMBER,",
-				"          isActive = update_isActive",
-				"     )) ~> updateSink"
+				"          isActive = update_isActive,",
+				"          surKey = SQL_surKey",
+				"     )) ~> sinkupdate"
 			]
 		}
 	}
