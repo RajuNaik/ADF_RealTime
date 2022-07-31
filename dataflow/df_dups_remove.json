@@ -1,0 +1,131 @@
+{
+	"name": "df_dups_remove",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adls_dups1",
+						"type": "DatasetReference"
+					},
+					"name": "asia1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_adls_dups2",
+						"type": "DatasetReference"
+					},
+					"name": "asia2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "union1"
+				},
+				{
+					"name": "aggregate1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Region as string,",
+				"          Country as string,",
+				"          {Item Type} as string,",
+				"          {Sales Channel} as string,",
+				"          {Order Priority} as string,",
+				"          {Order Date} as string,",
+				"          {Order ID} as string,",
+				"          {Ship Date} as string,",
+				"          {Units Sold} as string,",
+				"          {Unit Price} as string,",
+				"          {Unit Cost} as string,",
+				"          {Total Revenue} as string,",
+				"          {Total Cost} as string,",
+				"          {Total Profit} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> asia1",
+				"source(output(",
+				"          Region as string,",
+				"          Country as string,",
+				"          {Item Type} as string,",
+				"          {Sales Channel} as string,",
+				"          {Order Priority} as string,",
+				"          {Order Date} as string,",
+				"          {Order ID} as string,",
+				"          {Ship Date} as string,",
+				"          {Units Sold} as string,",
+				"          {Unit Price} as string,",
+				"          {Unit Cost} as string,",
+				"          {Total Revenue} as string,",
+				"          {Total Cost} as string,",
+				"          {Total Profit} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> asia2",
+				"asia1, asia2 union(byName: true)~> union1",
+				"union1 aggregate(groupBy(Country),",
+				"     o_sum_units_sold = toString(sum(toInteger({Units Sold})))\r",
+				"\r",
+				",",
+				"          each(match(name!='Country'), $$ = first($$))) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Region as string,",
+				"          Country as string,",
+				"          {Item Type} as string,",
+				"          {Sales Channel} as string,",
+				"          {Order Priority} as string,",
+				"          {Order Date} as string,",
+				"          {Order ID} as string,",
+				"          {Ship Date} as string,",
+				"          {Units Sold} as string,",
+				"          {Unit Price} as string,",
+				"          {Unit Cost} as string,",
+				"          {Total Revenue} as string,",
+				"          {Total Cost} as string,",
+				"          {Total Profit} as string,",
+				"          {total units sold} as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Region,",
+				"          Country,",
+				"          {Item Type},",
+				"          {Sales Channel},",
+				"          {Order Priority},",
+				"          {Order Date},",
+				"          {Order ID},",
+				"          {Ship Date},",
+				"          {Units Sold},",
+				"          {Unit Price},",
+				"          {Unit Cost},",
+				"          {Total Revenue},",
+				"          {Total Cost},",
+				"          {Total Profit},",
+				"          {total units sold} = o_sum_units_sold",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
