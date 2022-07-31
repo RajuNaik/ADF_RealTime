@@ -1,0 +1,153 @@
+{
+	"name": "df_scd_type2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_ff_scd2",
+						"type": "DatasetReference"
+					},
+					"name": "FFsource"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sqlDB_scd2",
+						"type": "DatasetReference"
+					},
+					"name": "srcDB"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_sqlDB_scd2",
+						"type": "DatasetReference"
+					},
+					"name": "Insert"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sqlDB_scd2",
+						"type": "DatasetReference"
+					},
+					"name": "updateSink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "newColisActive"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "alterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EMPLOYEE_ID as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL as string,",
+				"          PHONE_NUMBER as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> FFsource",
+				"source(output(",
+				"          surKey as integer,",
+				"          EMPLOYEE_ID as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL as string,",
+				"          PHONE_NUMBER as string,",
+				"          isActive as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> srcDB",
+				"FFsource derive(o_isActive = 1) ~> newColisActive",
+				"srcDB select(mapColumn(",
+				"          SQL_surKey = surKey,",
+				"          SQL_EMPLOYEE_ID = EMPLOYEE_ID,",
+				"          SQL_FIRST_NAME = FIRST_NAME,",
+				"          SQL_LAST_NAME = LAST_NAME,",
+				"          SQL_EMAIL = EMAIL,",
+				"          SQL_PHONE_NUMBER = PHONE_NUMBER,",
+				"          SQL_isActive = isActive",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"FFsource, select1 lookup(EMPLOYEE_ID == SQL_EMPLOYEE_ID,",
+				"     multiple: true,",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 derive(update_isActive = 0) ~> derivedColumn1",
+				"derivedColumn1 alterRow(updateIf(true())) ~> alterRow1",
+				"newColisActive sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          surKey as integer,",
+				"          EMPLOYEE_ID as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL as string,",
+				"          PHONE_NUMBER as string,",
+				"          isActive as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          EMPLOYEE_ID,",
+				"          FIRST_NAME,",
+				"          LAST_NAME,",
+				"          EMAIL,",
+				"          PHONE_NUMBER,",
+				"          isActive = o_isActive",
+				"     )) ~> Insert",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          surKey as integer,",
+				"          EMPLOYEE_ID as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL as string,",
+				"          PHONE_NUMBER as string,",
+				"          isActive as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          EMPLOYEE_ID,",
+				"          FIRST_NAME,",
+				"          LAST_NAME,",
+				"          EMAIL,",
+				"          PHONE_NUMBER,",
+				"          isActive = update_isActive",
+				"     )) ~> updateSink"
+			]
+		}
+	}
+}
