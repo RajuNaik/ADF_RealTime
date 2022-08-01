@@ -1,0 +1,58 @@
+{
+	"name": "df_cdc",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_ff_cdc",
+						"type": "DatasetReference"
+					},
+					"name": "SrcFF"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_SQL_cdc",
+						"type": "DatasetReference"
+					},
+					"name": "SrcSQL"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EMPLOYEE_ID as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL as string,",
+				"          PHONE_NUMBER as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SrcFF",
+				"source(output(",
+				"          EMPLOYEE_ID as integer,",
+				"          FIRST_NAME as string,",
+				"          LAST_NAME as string,",
+				"          EMAIL as string,",
+				"          PHONE_NUMBER as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> SrcSQL",
+				"SrcFF derive(file_sha2 = sha2(256,columns())) ~> derivedColumn1",
+				"SrcSQL derive(sql_sha2 = sha2(256,columns())) ~> derivedColumn2"
+			]
+		}
+	}
+}
