@@ -9,7 +9,7 @@
 						"referenceName": "ds_ff_cdc",
 						"type": "DatasetReference"
 					},
-					"name": "SrcFF"
+					"name": "SrcF"
 				},
 				{
 					"dataset": {
@@ -52,7 +52,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> SrcFF",
+				"     ignoreNoFilesFound: false) ~> SrcF",
 				"source(output(",
 				"          EMPLOYEE_ID as integer,",
 				"          FIRST_NAME as string,",
@@ -64,7 +64,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> SrcSQL",
-				"SrcFF derive(file_sha2 = sha2(256,columns())) ~> derivedColumn1",
+				"SrcF derive(file_sha2 = sha2(256,columns())) ~> derivedColumn1",
 				"SrcSQL derive(sql_sha2 = sha2(256,columns())) ~> derivedColumn2",
 				"derivedColumn1, derivedColumn2 exists(file_sha2 == sql_sha2,",
 				"     negate:true,",
