@@ -1,0 +1,22 @@
+{
+	"name": "ds_extgt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStoragesource",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "target_file.csv",
+				"container": "container2"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
