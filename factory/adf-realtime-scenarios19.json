@@ -1,0 +1,9 @@
+{
+	"name": "adf-realtime-scenarios19",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "0b26f76b-0bfb-42b5-b170-2ef95dc329d8",
+		"tenantId": "f72d5d10-3956-48fb-a9b7-db107c416ad0"
+	}
+}
