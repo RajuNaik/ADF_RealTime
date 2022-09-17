@@ -1,0 +1,9 @@
+{
+	"name": "ADFRealTime1",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "10d5d474-574c-4c83-bfe1-5957293c2a32",
+		"tenantId": "8b9221e9-734b-4c70-a42d-31f78e4d69f4"
+	}
+}
