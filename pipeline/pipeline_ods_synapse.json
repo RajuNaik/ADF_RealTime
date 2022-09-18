@@ -24,7 +24,7 @@
 							"referenceName": "ls_source_dir",
 							"type": "LinkedServiceReference"
 						},
-						"folderPath": "container1"
+						"folderPath": "container1/target_dir"
 					},
 					"compute": {
 						"coreCount": 8,
