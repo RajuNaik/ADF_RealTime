@@ -1,0 +1,19 @@
+{
+	"name": "dataflow_src_stg",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "sourceff"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> sourceff"
+			]
+		}
+	}
+}
