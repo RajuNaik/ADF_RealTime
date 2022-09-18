@@ -50,7 +50,7 @@
 				"source filter(country_code=='IND' || country_code=='GBR') ~> filter",
 				"filter derive(country_concat = concat(country,'-',country_code),",
 				"          insert_ts = currentDate()) ~> derivedColumn",
-				"derivedColumn sink(allowSchemaDrift: false,",
+				"derivedColumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          caseid as integer,",
@@ -75,15 +75,15 @@
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          caseid,",
-				"          country,",
-				"          country_code,",
 				"          continent,",
 				"          population,",
 				"          indicator,",
 				"          daily_count,",
 				"          date,",
 				"          rate_14_day,",
-				"          source",
+				"          source,",
+				"          insert_ts,",
+				"          country_concat",
 				"     )) ~> sink"
 			]
 		}
