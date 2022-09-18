@@ -60,13 +60,12 @@
 				"          date as date,",
 				"          rate_14_day as string,",
 				"          source as string,",
-				"          insert_ts as binary",
+				"          insert_ts as date",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     truncate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -81,8 +80,7 @@
 				"          daily_count,",
 				"          date,",
 				"          rate_14_day,",
-				"          source,",
-				"          insert_ts",
+				"          source",
 				"     )) ~> sink"
 			]
 		}
