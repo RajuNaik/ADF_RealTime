@@ -1,0 +1,62 @@
+{
+	"name": "ds_ods_sql_db",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_stg_ods_sql_db",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "caseid",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "country_code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "continent",
+				"type": "nvarchar"
+			},
+			{
+				"name": "population",
+				"type": "nvarchar"
+			},
+			{
+				"name": "indicator",
+				"type": "nvarchar"
+			},
+			{
+				"name": "daily_count",
+				"type": "nvarchar"
+			},
+			{
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"name": "rate_14_day",
+				"type": "nvarchar"
+			},
+			{
+				"name": "source",
+				"type": "nvarchar"
+			},
+			{
+				"name": "insert_ts",
+				"type": "timestamp"
+			}
+		],
+		"typeProperties": {
+			"schema": "SalesLT",
+			"table": "ODS_Covid"
+		}
+	}
+}
