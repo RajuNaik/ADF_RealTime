@@ -80,7 +80,8 @@
 				"          daily_count,",
 				"          date,",
 				"          rate_14_day,",
-				"          source",
+				"          source,",
+				"          insert_ts",
 				"     )) ~> sink"
 			]
 		}
