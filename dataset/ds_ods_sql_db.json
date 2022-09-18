@@ -14,14 +14,6 @@
 				"precision": 10
 			},
 			{
-				"name": "country",
-				"type": "nvarchar"
-			},
-			{
-				"name": "country_code",
-				"type": "nvarchar"
-			},
-			{
 				"name": "continent",
 				"type": "nvarchar"
 			},
@@ -51,7 +43,11 @@
 			},
 			{
 				"name": "insert_ts",
-				"type": "timestamp"
+				"type": "date"
+			},
+			{
+				"name": "country_concat",
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
