@@ -1,0 +1,63 @@
+{
+	"name": "ds_synapse_tab",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_synapse_table",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "caseid",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "continent",
+				"type": "nvarchar"
+			},
+			{
+				"name": "population",
+				"type": "nvarchar"
+			},
+			{
+				"name": "indicator",
+				"type": "nvarchar"
+			},
+			{
+				"name": "daily_count",
+				"type": "nvarchar"
+			},
+			{
+				"name": "date",
+				"type": "date"
+			},
+			{
+				"name": "rate_14_day",
+				"type": "nvarchar"
+			},
+			{
+				"name": "source",
+				"type": "nvarchar"
+			},
+			{
+				"name": "insert_ts",
+				"type": "date"
+			},
+			{
+				"name": "country_concat",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "DWH_Covid"
+		}
+	}
+}
