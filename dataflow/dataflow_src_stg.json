@@ -46,7 +46,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourceFile",
 				"sourceFile sort(asc(caseid, true)) ~> sortcaseid",
-				"sortcaseid derive(insert_ts = currentTimestamp()) ~> derivedColumn",
+				"sortcaseid derive(insert_ts = currentDate()) ~> derivedColumn",
 				"derivedColumn sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
 				"     input(",
