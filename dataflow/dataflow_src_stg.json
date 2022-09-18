@@ -12,17 +12,16 @@
 					"name": "sourceff"
 				}
 			],
-			"sinks": [
-				{
-					"name": "sink1"
-				}
-			],
+			"sinks": [],
 			"transformations": [
+				{
+					"name": "alterRow1"
+				},
 				{
 					"name": "sort1"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "sort2"
 				}
 			],
 			"scriptLines": [
@@ -41,12 +40,9 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourceff",
-				"sourceff sort(asc(ERROR_FUNCTION(''), true)) ~> sort1",
-				"sort1 derive() ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"sort1 alterRow() ~> alterRow1",
+				"sort2 sort() ~> sort1",
+				"sourceff sort() ~> sort2"
 			]
 		}
 	}
