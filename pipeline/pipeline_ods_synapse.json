@@ -19,6 +19,13 @@
 						"referenceName": "dataflow_ods_synapse",
 						"type": "DataFlowReference"
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "ls_source_dir",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "container1"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
