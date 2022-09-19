@@ -1,0 +1,35 @@
+{
+	"name": "trigger_archive",
+	"properties": {
+		"description": "to archive source files",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipeline": {
+			"pipelineReference": {
+				"referenceName": "pipeline_archive",
+				"type": "PipelineReference"
+			}
+		},
+		"type": "TumblingWindowTrigger",
+		"typeProperties": {
+			"frequency": "Minute",
+			"interval": 30,
+			"startTime": "2022-09-19T06:30:00Z",
+			"endTime": "2022-09-19T10:00:00Z",
+			"delay": "00:00:00",
+			"maxConcurrency": 50,
+			"retryPolicy": {
+				"intervalInSeconds": 30
+			},
+			"dependsOn": [
+				{
+					"type": "TumblingWindowTriggerDependencyReference",
+					"referenceTrigger": {
+						"referenceName": "trigger_ods_synapse",
+						"type": "TriggerReference"
+					}
+				}
+			]
+		}
+	}
+}

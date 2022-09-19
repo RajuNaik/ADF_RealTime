@@ -1,13 +1,18 @@
 {
-	"name": "ds_ods_sql_db",
+	"name": "ds_synapse_tab",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "ls_stg_ods_sql_db",
+			"referenceName": "ls_synapse_table",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "AzureSqlTable",
+		"type": "AzureSqlDWTable",
 		"schema": [
+			{
+				"name": "ID",
+				"type": "int",
+				"precision": 10
+			},
 			{
 				"name": "caseid",
 				"type": "int",
@@ -51,8 +56,8 @@
 			}
 		],
 		"typeProperties": {
-			"schema": "SalesLT",
-			"table": "ODS_Covid"
+			"schema": "dbo",
+			"table": "DWH_Covid"
 		}
 	}
 }
