@@ -1,0 +1,27 @@
+{
+	"name": "trigger_src_stg",
+	"properties": {
+		"description": "to load from source file to stage table",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipeline": {
+			"pipelineReference": {
+				"referenceName": "pipeline_src_stg",
+				"type": "PipelineReference"
+			}
+		},
+		"type": "TumblingWindowTrigger",
+		"typeProperties": {
+			"frequency": "Minute",
+			"interval": 30,
+			"startTime": "2022-09-19T06:30:00Z",
+			"endTime": "2022-09-19T10:00:00Z",
+			"delay": "00:00:00",
+			"maxConcurrency": 50,
+			"retryPolicy": {
+				"intervalInSeconds": 30
+			},
+			"dependsOn": []
+		}
+	}
+}
