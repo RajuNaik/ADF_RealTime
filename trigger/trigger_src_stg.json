@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "to load from source file to stage table",
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "pipeline_src_stg",
