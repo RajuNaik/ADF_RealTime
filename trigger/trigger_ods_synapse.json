@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "to load data from ods to synapse",
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "pipeline_ods_synapse",
