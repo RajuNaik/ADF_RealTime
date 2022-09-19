@@ -1,0 +1,35 @@
+{
+	"name": "trigger_stg_ods",
+	"properties": {
+		"description": "to load data from stg to ods table",
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipeline": {
+			"pipelineReference": {
+				"referenceName": "pipeline_stg_ods",
+				"type": "PipelineReference"
+			}
+		},
+		"type": "TumblingWindowTrigger",
+		"typeProperties": {
+			"frequency": "Minute",
+			"interval": 30,
+			"startTime": "2022-09-19T06:30:00Z",
+			"endTime": "2022-09-19T10:00:00Z",
+			"delay": "00:00:00",
+			"maxConcurrency": 50,
+			"retryPolicy": {
+				"intervalInSeconds": 30
+			},
+			"dependsOn": [
+				{
+					"type": "TumblingWindowTriggerDependencyReference",
+					"referenceTrigger": {
+						"referenceName": "trigger_src_stg",
+						"type": "TriggerReference"
+					}
+				}
+			]
+		}
+	}
+}
