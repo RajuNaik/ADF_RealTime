@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "to archive source files",
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "pipeline_archive",
