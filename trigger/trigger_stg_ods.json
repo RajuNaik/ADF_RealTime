@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "to load data from stg to ods table",
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "pipeline_stg_ods",
