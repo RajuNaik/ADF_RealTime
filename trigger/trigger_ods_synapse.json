@@ -23,11 +23,7 @@
 			},
 			"dependsOn": [
 				{
-					"type": "TumblingWindowTriggerDependencyReference",
-					"referenceTrigger": {
-						"referenceName": "trigger_stg_ods",
-						"type": "TriggerReference"
-					}
+					"type": "SelfDependencyTumblingWindowTriggerReference"
 				}
 			]
 		}
