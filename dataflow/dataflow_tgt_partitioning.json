@@ -43,7 +43,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourcefile",
 				"sourcefile derive(insert_ts = currentDate()) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: false,",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     umask: 0022,",
