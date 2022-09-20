@@ -64,7 +64,7 @@
 				"          source,",
 				"          insert_ts",
 				"     ),",
-				"     partitionBy('roundRobin', 2)) ~> sink1"
+				"     partitionBy('roundRobin', 5)) ~> sink1"
 			]
 		}
 	}
