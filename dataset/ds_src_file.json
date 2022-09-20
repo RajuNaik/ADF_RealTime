@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "case_deaths_uk_ind.csv",
+				"fileName": "case_deaths_uk_ind_only.csv",
 				"folderPath": "source_dir",
 				"fileSystem": "container1"
 			},
