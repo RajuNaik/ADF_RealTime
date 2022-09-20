@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"folderPath": "Covid_Files",
 				"fileSystem": "container1"
 			},
 			"compressionCodec": "snappy"
