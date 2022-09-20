@@ -64,7 +64,9 @@
 				"          source,",
 				"          insert_ts",
 				"     ),",
-				"     partitionBy('roundRobin', 5)) ~> sink1"
+				"     partitionBy('hash', 2,",
+				"          country",
+				"     )) ~> sink1"
 			]
 		}
 	}
