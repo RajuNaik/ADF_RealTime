@@ -1,0 +1,19 @@
+{
+	"name": "ds_tgt_Parquet_partition",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_tgt_dir",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileSystem": "container1"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
