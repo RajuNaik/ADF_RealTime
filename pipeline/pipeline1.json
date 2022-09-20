@@ -19,9 +19,7 @@
 						"referenceName": "ds_src_file",
 						"type": "DatasetReference"
 					},
-					"fieldList": [
-						"columnCount"
-					],
+					"fieldList": [],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
