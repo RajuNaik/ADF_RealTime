@@ -64,8 +64,8 @@
 				"          source,",
 				"          insert_ts",
 				"     ),",
-				"     partitionBy('hash', 2,",
-				"          country",
+				"     partitionBy('fixed', 2,",
+				"          country=='India'",
 				"     )) ~> sink1"
 			]
 		}
