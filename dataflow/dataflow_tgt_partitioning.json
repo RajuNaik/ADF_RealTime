@@ -14,6 +14,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "ds_tgt_Parquet_partition",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -39,10 +43,31 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> sourcefile",
 				"sourcefile derive(insert_ts = currentDate()) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"derivedColumn1 sink(allowSchemaDrift: false,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          caseid,",
+				"          country,",
+				"          country_code,",
+				"          continent,",
+				"          population,",
+				"          indicator,",
+				"          daily_count,",
+				"          date,",
+				"          rate_14_day,",
+				"          source,",
+				"          insert_ts",
+				"     ),",
+				"     partitionBy('key',",
+				"          0,",
+				"          country",
+				"     )) ~> sink1"
 			]
 		}
 	}
