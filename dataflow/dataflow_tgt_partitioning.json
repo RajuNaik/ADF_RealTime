@@ -19,6 +19,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_stg_sql_db",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -64,9 +71,49 @@
 				"          source,",
 				"          insert_ts",
 				"     ),",
-				"     partitionBy('fixed', 2,",
-				"          country=='India'",
-				"     )) ~> sink1"
+				"     partitionBy('key',",
+				"          0,",
+				"          country",
+				"     )) ~> sink1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          caseid as integer,",
+				"          country as string,",
+				"          country_code as string,",
+				"          continent as string,",
+				"          population as string,",
+				"          indicator as string,",
+				"          daily_count as string,",
+				"          date as date,",
+				"          rate_14_day as string,",
+				"          source as string,",
+				"          insert_ts as date",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          country,",
+				"          country_code,",
+				"          continent,",
+				"          population,",
+				"          indicator,",
+				"          daily_count,",
+				"          rate_14_day,",
+				"          source,",
+				"          insert_ts",
+				"     ),",
+				"     partitionBy('key',",
+				"          0,",
+				"          country",
+				"     )) ~> sink2"
 			]
 		}
 	}
